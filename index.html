@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/font.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="/js/glfx.js"></script>
+    <canvas id="unchi" width="1920" height="1080" style="display:none"></canvas>
+    <canvas id="result-canvas" width="1920" height="1080" style="width:800px"></canvas>
+    <div>
+        <input type="text" id="input-text">
+        <button onclick="render()">JELLYさんにしゃべらせる</button>
+    </div>
+    <script>
+        const render = function () {
+            const backboard = document.getElementById("unchi")
+            const ctx = backboard.getContext("2d");
+            
+            ctx.clearRect(0, 0, backboard.width, backboard.height);
+
+            ctx.textAlign = "center"
+            ctx.fill = "black"
+            ctx.font = "135px 'Noto Sans JP'";
+            ctx.fillText(document.getElementById("input-text").value, 850, 120)
+
+            var canvas = fx.canvas();
+            var texture = canvas.texture(backboard);
+
+            const w = 1700
+            const h = 140
+            const offsetx = 0
+            const offsety = -10
+
+            canvas.draw(texture).perspective([offsetx, offsety, offsetx, h, w, offsety, w, h], [251, 723, 221, 855, 1709, 719, 1750, 850]).update();
+
+            const dataurl = canvas.toDataURL('image/png');
+
+            const result = document.getElementById("result-canvas")
+            const ctx2 = result.getContext("2d");
+
+            ctx2.clearRect(0, 0, result.width, result.height);
+
+            const chara2 = new Image();
+            chara2.src = "/img/1.jpg";  // 画像のURLを指定
+            chara2.onload = () => {
+                ctx2.drawImage(chara2, 0, 0);
+                const img = new Image()
+                img.src = dataurl
+                img.onload = () => {
+                    ctx2.drawImage(img, 0, 0);
+                }
+            }
+        };
+
+        window.onload = render
+    </script>
+</body>
+
+</html>
