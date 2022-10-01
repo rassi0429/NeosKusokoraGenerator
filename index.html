@@ -32,22 +32,17 @@
         const render = function () {
             const backboard = document.getElementById("unchi")
             const ctx = backboard.getContext("2d");
-
             ctx.clearRect(0, 0, backboard.width, backboard.height);
-
             ctx.textAlign = "center"
             ctx.fill = "black"
             ctx.font = "135px 'Noto Sans JP'";
             ctx.fillText(document.getElementById("input-text").value, 850, 120)
-
             var canvas = fx.canvas();
             var texture = canvas.texture(backboard);
-
             const w = 1700
             const h = 140
             const offsetx = 0
             const offsety = -10
-
             canvas.draw(texture).perspective([offsetx, offsety, offsetx, h, w, offsety, w, h], [251, 723, 221, 855, 1709, 719, 1750, 850]).update();
 
             const dataurl = canvas.toDataURL('image/png');
@@ -55,7 +50,7 @@
             const result = document.getElementById("result-canvas")
             const ctx2 = result.getContext("2d");
 
-            ctx2.clearRect(0, 0, result.width, result.height);
+            /// ctx2.clearRect(0, 0, result.width, result.height);
 
             const chara2 = new Image();
             chara2.src = "/img/1.jpg";  // 画像のURLを指定
