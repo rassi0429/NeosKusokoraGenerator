@@ -1,27 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head prefix="og: https://ogp.me/ns#">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/font.css" rel="stylesheet">
-    <title>Document</title>
+    <title>じぇりーさんにしゃべらせるやつv1</title>
+
+    <meta property="og:url" content="https://kusokora.kokoa.dev/index.html" />
+    <meta property="og:title" content=" じぇりーさんにしゃべらせるやつ" />
+    <meta property="og:description" content=" じぇりーさんにしゃべらせるやつ" />
+    <meta property="og:site_name" content="じぇりーさんにしゃべらせるやつ" />
+    <meta property="og:image" content=" https://kusokora.kokoa.dev/img/ogp.png" />
 </head>
 
 <body>
     <script src="/js/glfx.js"></script>
+    <h1>じぇりーさんにしゃべらせるやつv1</h1>
     <canvas id="unchi" width="1920" height="1080" style="display:none"></canvas>
-    <canvas id="result-canvas" width="1920" height="1080" style="width:800px"></canvas>
     <div>
-        <input type="text" id="input-text">
-        <button onclick="render()">JELLYさんにしゃべらせる</button>
+        <input type="text" id="input-text" onkeyup="render()" value="そう思ったことはない">
+        <button id="download">画像をダウンロードする</button>
     </div>
+    <canvas id="result-canvas" width="1920" height="1080" style="max-width: 800px; width: 100%;"></canvas>
+
+    <footer>
+        kokoa 2022. <a href="https://github.com/rassi0429/NeosKusokoraGenerator">GitHub</a>
+    </footer>
     <script>
         const render = function () {
             const backboard = document.getElementById("unchi")
             const ctx = backboard.getContext("2d");
-            
+
             ctx.clearRect(0, 0, backboard.width, backboard.height);
 
             ctx.textAlign = "center"
@@ -55,10 +66,24 @@
                 img.onload = () => {
                     ctx2.drawImage(img, 0, 0);
                 }
+                const hanko = new Image()
+                hanko.src = "/img/hanko.png"
+                hanko.onload = () => {
+                    const hw = 120
+                    ctx2.drawImage(hanko, 0, 0, 400, 400, 1920 - hw, 1080 - hw, hw, hw)
+                }
             }
         };
 
         window.onload = render
+
+        document.getElementById("download").onclick = (event) => {
+            let canvas = document.getElementById("result-canvas");
+            let link = document.createElement("a");
+            link.href = canvas.toDataURL("image/png");
+            link.download = "jellysaying.png";
+            link.click();
+        }
     </script>
 </body>
 
